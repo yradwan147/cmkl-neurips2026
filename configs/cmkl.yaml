@@ -1,0 +1,51 @@
+# CMKL (Continual Multimodal KG Learner) Configuration
+# Extends base.yaml
+
+defaults:
+  - base
+
+cmkl:
+  # Encoder settings
+  structural_encoder: rgcn  # rgcn | gat
+  text_encoder: microsoft/BiomedNLP-BiomedBERT-base-uncased-abstract
+  freeze_text_encoder: true
+  use_molecular: true
+  molecular_input_dim: 1024  # Morgan fingerprint dimension
+
+  # Fusion
+  fusion_type: cross_attention  # cross_attention | concatenation | moe | score_fusion
+  num_attention_heads: 4
+
+  # Score-level fusion (Run 10): per-modality decoders, combined at eval
+  # Only used when fusion_type: score_fusion
+  score_fusion_alpha_text: 0.5  # Text score weight at eval
+  score_fusion_alpha_mol: 0.3   # Mol score weight at eval
+  text_loss_weight: 1.0         # Text decoder training loss weight
+  mol_loss_weight: 1.0          # Mol decoder training loss weight
+
+  # OGM-GE gradient modulation (Peng et al., CVPR 2022)
+  use_ogm: false
+  ogm_alpha: 1.0               # Modulation strength (0=disabled)
+
+  # Contrastive modality alignment (MCLEA, Chen et al., COLING 2022)
+  contrastive_weight: 0.0       # 0 = disabled, 0.1 = recommended
+  contrastive_temp: 0.1         # InfoNCE temperature
+
+  # Modality-aware EWC
+  lambda_struct: 10.0   # Sweep: [0.1, 1.0, 5.0, 10.0, 50.0, 100.0]
+  lambda_text: 5.0      # Sweep: [0.1, 1.0, 5.0, 10.0, 50.0, 100.0]
+  lambda_mol: 1.0       # Sweep: [0.1, 1.0, 5.0, 10.0, 50.0, 100.0]
+
+  # Multimodal memory replay
+  replay_buffer_size: 1000  # Sweep: [100, 250, 500, 1000, 2000, 5000]
+  replay_strategy: full_multimodal  # full_multimodal | partial_modality
+  replay_selection: diverse  # diverse (K-means) | random
+  replay_ratio: 0.3
+
+  # Training loop
+  samples_per_epoch: 50000  # Triples sampled per epoch (per-epoch R-GCN training)
+
+  # Knowledge distillation (optional)
+  use_distillation: false
+  distillation_temperature: 2.0
+  distillation_alpha: 0.5

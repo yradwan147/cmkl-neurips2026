@@ -1,0 +1,60 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Data files (download benchmark archive separately)
+/data/
+
+# Model checkpoints / large binaries
+checkpoints/
+*.pt
+*.pth
+*.ckpt
+*.bin
+
+# Experiment tracking
+wandb/
+mlruns/
+results/
+results_run*/
+backup_*/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment / credentials
+.env
+.env.local
+.netrc
+.git-credentials
+
+# Logs
+*.log
+slurm/slurm_logs/
+
+# External dependencies (cloned at runtime)
+external/
+
+# Build artifacts
+*.pdf
+*.zip

@@ -1,0 +1,11 @@
+# Experience Replay Baseline Configuration
+# Extends base.yaml
+
+defaults:
+  - base
+
+replay:
+  buffer_size_per_task: 500  # Sweep: [100, 250, 500, 1000, 2000]
+  replay_ratio: 0.3  # Fraction of batch from replay buffer
+  selection_strategy: relation_balanced  # random | relation_balanced | attention
+  kge_model: TransE  # TransE | ComplEx | DistMult | RotatE

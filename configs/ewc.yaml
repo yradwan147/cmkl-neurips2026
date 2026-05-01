@@ -1,0 +1,10 @@
+# EWC Baseline Configuration
+# Extends base.yaml
+
+defaults:
+  - base
+
+ewc:
+  lambda_ewc: 10.0  # Sweep: [0.1, 1.0, 10.0, 100.0, 1000.0]
+  fisher_samples: null  # null = use all training data
+  kge_model: TransE  # TransE | ComplEx | DistMult | RotatE

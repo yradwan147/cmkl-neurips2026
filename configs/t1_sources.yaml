@@ -1,0 +1,116 @@
+# Configuration for building real PrimeKG t1 from source databases.
+# Set enabled: true/false for each database.
+# When a license arrives later, just flip the flag and re-run.
+
+output_dir: data/t1_sources
+snapshot_output: data/benchmark/snapshots/kg_t1.csv
+
+# Carry drug-related edges from t0 since DrugBank requires a license
+carry_drug_edges_from: data/benchmark/snapshots/kg_t0.csv
+
+databases:
+  # --- Freely available (no registration needed) ---
+  bgee:
+    enabled: true
+    description: "Gene expression by anatomy (BGEE)"
+    edge_types: [anatomy_protein_present, anatomy_protein_absent]
+    auth_required: false
+
+  ctd:
+    enabled: true
+    description: "Comparative Toxicogenomics Database"
+    edge_types: [exposure_protein, exposure_disease, exposure_exposure, exposure_bioprocess, exposure_molfunc, exposure_cellcomp]
+    auth_required: false
+
+  gene_ontology:
+    enabled: true
+    description: "Gene Ontology terms and hierarchy"
+    edge_types: [bioprocess_bioprocess, molfunc_molfunc, cellcomp_cellcomp]
+    auth_required: false
+
+  gene2go:
+    enabled: true
+    description: "NCBI Gene-to-GO annotations"
+    edge_types: [bioprocess_protein, molfunc_protein, cellcomp_protein]
+    auth_required: false
+
+  hpo:
+    enabled: true
+    description: "Human Phenotype Ontology"
+    edge_types: [phenotype_phenotype]
+    auth_required: false
+
+  hpoa:
+    enabled: true
+    description: "HPO disease-phenotype annotations"
+    edge_types: [disease_phenotype_positive, disease_phenotype_negative]
+    auth_required: false
+
+  mondo:
+    enabled: true
+    description: "MONDO disease ontology"
+    edge_types: [disease_disease]
+    auth_required: false
+
+  reactome:
+    enabled: false
+    description: "Reactome pathway database"
+    edge_types: [pathway_pathway, pathway_protein]
+    auth_required: false
+    note: "Temporarily disabled - reactome.org unreachable. Re-enable when available."
+
+  uberon:
+    enabled: true
+    description: "UBERON anatomy ontology"
+    edge_types: [anatomy_anatomy]
+    auth_required: false
+
+  gene_names:
+    enabled: true
+    description: "HGNC gene name vocabulary (needed by most databases)"
+    edge_types: []
+    auth_required: false
+
+  # --- Requires registration (free for academic use) ---
+  disgenet:
+    enabled: false
+    description: "DisGeNET gene-disease associations"
+    edge_types: [disease_protein, phenotype_protein]
+    auth_required: true
+    api_key_env: DISGENET_API_KEY
+    note: "DisGeNET moved to disgenet.com with new API. disease_protein/phenotype_protein carried from t0."
+
+  drugbank:
+    enabled: false
+    description: "DrugBank drug interactions and targets"
+    edge_types: [drug_protein, drug_drug]
+    auth_required: true
+    note: "Register at go.drugbank.com (free academic license)"
+
+  umls:
+    enabled: false
+    description: "UMLS Metathesaurus (improves disease ID mapping)"
+    edge_types: []
+    auth_required: true
+    note: "Register at uts.nlm.nih.gov"
+
+  drugcentral:
+    enabled: false
+    description: "Drug Central drug-disease associations"
+    edge_types: [drug_disease]
+    auth_required: false
+    note: "Requires PostgreSQL + UMLS mapping + DrugBank vocabulary"
+
+  sider:
+    enabled: false
+    description: "SIDER drug side effects"
+    edge_types: [drug_effect]
+    auth_required: false
+    note: "Requires DrugBank ATC codes. SIDER URLs may be unreliable."
+
+  ppi:
+    enabled: false
+    description: "Protein-protein interactions (manual assembly from BioGRID/STRING/HuRI)"
+    edge_types: [protein_protein]
+    auth_required: false
+    note: "PPI edges carried from t0 instead. Enable to download fresh BioGRID data."

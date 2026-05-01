@@ -1,0 +1,33 @@
+# MCGL Base Configuration
+# Shared defaults for all experiments
+
+data:
+  benchmark_dir: data/benchmark
+  kg_t0_path: data/benchmark/snapshots/kg_t0.csv
+  kg_t1_path: data/benchmark/snapshots/kg_t1.csv
+  task_strategy: entity_type  # entity_type | relation_type | temporal
+  val_ratio: 0.1
+  test_ratio: 0.2
+
+model:
+  embedding_dim: 256
+  num_gnn_layers: 2
+  dropout: 0.1
+
+training:
+  num_epochs: 100
+  learning_rate: 0.001
+  batch_size: 512
+  weight_decay: 0.0001
+  early_stopping_patience: 10
+  device: cuda
+
+evaluation:
+  metrics: [mrr, hits_at_1, hits_at_3, hits_at_10]
+  seeds: [42, 123, 456, 789, 1024]
+
+logging:
+  use_wandb: false
+  wandb_project: mcgl
+  results_dir: results
+  checkpoint_dir: checkpoints
